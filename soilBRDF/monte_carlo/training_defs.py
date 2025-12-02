@@ -38,8 +38,14 @@ Functions for the Monte-Carlo simulations of BRDF
     To get soil reflectances, will use a perfect soil sample from csv files.
 """
 
+# Assumptions:
+"""
+    - Viewing angle is the same for all points; detector is sufficiently far away to neglect small angle changes
+"""
+
 import numpy as np
 from scipy.differentiate import derivative
+
 
 def calc_wavelength_BRDF(incoming_light_angle, viewing_angle, azimuthal_angle):
     """
@@ -55,35 +61,81 @@ def calc_wavelength_BRDF(incoming_light_angle, viewing_angle, azimuthal_angle):
     mu_0 = np.cos(theta_0)
     return (np.pi * I_lambda) / (mu_0 * F_lambda)
 
-def calc_measured_intensity(incoming_light_angle, viewing_angle, azimuthal_angle):
-    F_lambda = 1365                     # W/m^2
-    theta_0 = incoming_light_angle      # Radians
-    theta = viewing_angle               # Radians
-    phi = azimuthal_angle               # Radians
+
+def calc_measured_intensity():
     return 1
 
-def calc_point_lambertian_intensity(incoming_light_angle, viewing_angle, azimuthal_angle, soil_shape_function, x_point):
+
+def calc_point_measured_intensity(viewing_angle, incoming_intensity, soil_shape_function, x_point):
+    theta = viewing_angle               # Radians
+    lambert_multiplier = calc_point_lambertian_multiplier(viewing_angle=theta, 
+                                                          soil_shape_function=soil_shape_function, 
+                                                          x_point=x_point)
+    # Calculate incoming intensity by lambert's cosine law.
+    return incoming_intensity * lambert_multiplier
+
+
+def calc_point_lambertian_multiplier(viewing_angle, soil_shape_function, x_point):
     shape_func = soil_shape_function
     dy_dx = derivative(shape_func, x_point)
-    H = ((dy_dx['df']) ** 2 + 1) ** 0.5
-    if H == 0:
-        vartheta = 0
-    elif dy_dx['df'] > 0:
-        vartheta = np.arccos(1/H)
-    else:
-        vartheta = -np.arccos(1/H)
-    
-    adjusted_incident_angle = incoming_light_angle + vartheta
-    adjusted_viewing_angle = viewing_angle + vartheta
-    return (np.sin(adjusted_incident_angle) * np.sin(adjusted_viewing_angle))
+    # New angle will be the 'angle' of the new plane compared to the horizontal axis.
+    # i.e. arctan of dy/dx divided by 1.
+    varphi = np.arctan(dy_dx['df'])
+    vartheta = viewing_angle + varphi
+
+    # Calculate intensity multiplier by Lambert's cosine law
+    # Intention: Received intensity will be the product of I_0 and this multiplier
+    return np.cos(vartheta)
+
 
 def soil_shape_function(x):
+    # Will only consider soil shapes that do not go vertical.
+    # such that a derivative exists.
     return np.sin(x)
 
-print(calc_point_lambertian_intensity(
-    incoming_light_angle    = np.pi/4,
-    viewing_angle           = np.pi/3,
-    azimuthal_angle         = 1,
-    soil_shape_function     = soil_shape_function,
-    x_point                 = 0
-    ))
+
+def ray_trace(incoming_angle, soil_shape_function, x_max, y_i, x_i):
+    """
+        This function returns the x-value of where the light first interacts with the surface, if it interacts
+            - Bool: True if interacts, False if out of bounds
+
+        x_max is the maximum absolute distace from 0 that the soil shape considers. (positive)
+        For these purposes, maybe x_max = 1 meter.
+
+        y_i is the origin of the ray in the y-axis, usually somewhere far away.
+        x_i is the origin of the ray in the x-axis.
+    """
+    # 3 possibilities: Angle is positive or negative, or 0
+    dx = 0.1
+    x_max = abs(x_max)
+    x = x_i
+
+    if incoming_angle == 0:
+        return True, x
+    elif incoming_angle > 0:
+        # Positive
+        dx = -dx
+        dy_dx = 1/(np.arctan(incoming_angle))
+    else:
+        # Negative
+        dx = dx
+        dy_dx = -1/(np.arctan(incoming_angle))
+
+    print(dy_dx)
+    while abs(x) <= x_max:
+        y_check = y_i + (dy_dx * (abs(x)-x_i))
+        if y_check <= soil_shape_function(x):
+            return True, x
+        x += dx
+    return False, 0
+
+print(ray_trace(
+    incoming_angle=np.pi/4, soil_shape_function=soil_shape_function, x_max=2, y_i = 1, x_i=1
+))
+
+# print(calc_point_measured_intensity(
+#     viewing_angle           = 1,
+#     incoming_intensity      = 1,
+#     soil_shape_function     = soil_shape_function,
+#     x_point                 = 0
+#     ))
