@@ -47,7 +47,7 @@ import numpy as np
 from scipy.differentiate import derivative
 
 
-def calc_wavelength_BRDF(incoming_light_angle, viewing_angle, azimuthal_angle):
+def calc_wavelength_BRDF(incoming_light_angle, received_intensity: list):
     """
         Notes
         - This function returns pi times the actual BRDF, and is dimensionless.
@@ -55,15 +55,15 @@ def calc_wavelength_BRDF(incoming_light_angle, viewing_angle, azimuthal_angle):
     """
     F_lambda = 1365                     # W/m^2
     theta_0 = incoming_light_angle      # Radians
-    theta = viewing_angle               # Radians
-    phi = azimuthal_angle               # Radians
-    I_lambda = calc_measured_intensity(theta_0, theta, phi)  # Watts
+    # theta = viewing_angle               # Radians
+    # phi = azimuthal_angle               # Radians
+    I_lambda = calc_measured_intensity(received_intensity)  # Watts
     mu_0 = np.cos(theta_0)
     return (np.pi * I_lambda) / (mu_0 * F_lambda)
 
 
-def calc_measured_intensity():
-    return 1
+def calc_measured_intensity(received_intensity: list):
+    return sum(received_intensity)/len(received_intensity)
 
 
 def calc_point_measured_intensity(viewing_angle, incoming_intensity, soil_shape_function, x_point):
@@ -87,12 +87,12 @@ def calc_point_lambertian_multiplier(viewing_angle, soil_shape_function, x_point
     # Intention: Received intensity will be the product of I_0 and this multiplier
     return np.cos(vartheta)
 
-
+"""
 def soil_shape_function(x):
     # Will only consider soil shapes that do not go vertical.
     # such that a derivative exists.
     return np.sin(x)
-
+"""
 
 def ray_trace(incoming_angle, soil_shape_function, x_max, y_i, x_i):
     """
@@ -120,8 +120,7 @@ def ray_trace(incoming_angle, soil_shape_function, x_max, y_i, x_i):
         # Negative
         dx = dx
         dy_dx = -1/(np.arctan(incoming_angle))
-
-    print(dy_dx)
+        
     while abs(x) <= x_max:
         y_check = y_i + (dy_dx * (abs(x)-x_i))
         if y_check <= soil_shape_function(x):
@@ -129,9 +128,9 @@ def ray_trace(incoming_angle, soil_shape_function, x_max, y_i, x_i):
         x += dx
     return False, 0
 
-print(ray_trace(
-    incoming_angle=np.pi/4, soil_shape_function=soil_shape_function, x_max=2, y_i = 1, x_i=1
-))
+# print(ray_trace(
+#     incoming_angle=np.pi/4, soil_shape_function=soil_shape_function, x_max=2, y_i = 1, x_i=1
+# ))
 
 # print(calc_point_measured_intensity(
 #     viewing_angle           = 1,
