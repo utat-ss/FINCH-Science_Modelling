@@ -85,7 +85,11 @@ def calc_point_lambertian_multiplier(viewing_angle, soil_shape_function, x_point
 
     # Calculate intensity multiplier by Lambert's cosine law
     # Intention: Received intensity will be the product of I_0 and this multiplier
-    return np.cos(vartheta)
+    # Note: Need value to be positive. If the value is negative, return 0.
+    if np.cos(vartheta) < 0:
+        return 0
+    else:
+        return np.cos(vartheta)
 
 """
 def soil_shape_function(x):
