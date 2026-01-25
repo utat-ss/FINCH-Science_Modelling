@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DartFile build="v1456" version="5.11.0">
+    <Plots addExtraPlotsTextFile="0" isVegetation="0">
+        <ImportationFichierRaster/>
+        <Plot form="1" hidden="0" hideRB="0" isDisplayed="1"
+            repeatedOnBorder="1" type="0">
+            <GroundOpticalPropertyLink
+                ident="Lambertian_Phase_Function_1" indexFctPhase="0" type="0"/>
+            <GroundThermalPropertyLink idTemperature="Spring" indexTemperature="0"/>
+            <Rectangle2D centreX="50" centreY="50" coteX="100"
+                coteY="100" intrinsicRotation="0"/>
+        </Plot>
+    </Plots>
+</DartFile>

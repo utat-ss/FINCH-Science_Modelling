@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DartFile build="v1456" version="5.11.0">
+    <Maket dartZone="0" exactlyPeriodicScene="1" hideRB="0"
+        linkEarthScene="" useRandomGenerationSeed="0">
+        <Scene>
+            <CellDimensions roundToExact="0" x="1" z="1"/>
+            <SceneDimensions x="100" y="100"/>
+        </Scene>
+        <RandomGenerationParameters generationSeed="733426921"/>
+        <Soil groundEnabled="1">
+            <OpticalPropertyLink ident="Lambertian_Phase_Function_1"
+                indexFctPhase="0" type="0"/>
+            <ThermalPropertyLink idTemperature="Spring" indexTemperature="0"/>
+            <Topography presenceOfTopography="1">
+                <TopographyProperties fileName="DEM.mp#" meshStrategy="2"/>
+            </Topography>
+            <DEM_properties createTopography="1">
+                <DEMGenerator caseDEM="1" outputFileName="DEM.mp#">
+                    <DEM_1 curveShape="6">
+                        <DEMproperties_6 amplitudeDEM="10" patternNumber="100"/>
+                    </DEM_1>
+                </DEMGenerator>
+            </DEM_properties>
+        </Soil>
+        <LatLon altitude="0.0" latitude="0.0" longitude="0.0"/>
+    </Maket>
+</DartFile>
