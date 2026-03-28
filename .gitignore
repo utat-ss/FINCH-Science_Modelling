@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.log
+*.pt
+*.onnx
+.DS_Store
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Logs and outputs
+*.log
+deep_learning/runs/atmo_data/mlp_128_4layer/results/*/
