@@ -1,0 +1,40 @@
+{
+  "title": "UTAT FINCH Mission: Atmospheric Modelling Pipeline",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Tal-Siegel, Noam",
+      "affiliation": "University of Toronto",
+      "orcid": "0009-0003-1381-3692"
+    },
+    {
+      "name": "Uygun, Kemal Emirhan",
+      "affiliation": "University of Toronto",
+      "orcid": "0009-0006-1891-4697"
+    },
+    {
+      "name": "Chen, Shuo",
+      "affiliation": "University of Toronto",
+      "orcid": "0009-0006-0122-7540"
+    },
+    {
+      "name": "Pavlov, Fedor",
+      "affiliation": "University of Toronto",
+      "orcid": "0009-0007-8281-4727"
+    },
+    {
+      "name": "Norton, Logan",
+      "affiliation": "University of Toronto",
+      "orcid": "0009-0007-5617-5060"
+    },
+    {
+      "name": "Augspach, Zoe",
+      "affiliation": "University of Toronto",
+      "orcid": "0009-0003-2465-4359"
+    }
+  ],
+  "description": "<p>This codebase includes all the source code, configuration files, and intermediary scripts that were used for the submitted ISPRS Archives publication. The codebase has the files necessary to automate the pipeline, and to get the unmixing results.</p>",
+  "version": "1.0.0"
+}

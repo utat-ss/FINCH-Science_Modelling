@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "UTAT FINCH Mission: Atmospheric Modelling Pipeline"
+version: 1.0.0
+date-released: 2026-04-05
+authors:
+  - family-names: "Tal-Siegel"
+    given-names: "Noam"
+    orcid: "https://orcid.org/0009-0003-1381-3692"
+    affiliation: "University of Toronto"
+  - family-names: "Uygun"
+    given-names: "Kemal Emirhan"
+    orcid: "https://orcid.org/0009-0006-1891-4697"
+    affiliation: "University of Toronto"
+  - family-names: "Chen"
+    given-names: "Shuo"
+    orcid: "https://orcid.org/0009-0006-0122-7540"
+    affiliation: "University of Toronto"
+  - family-names: "Pavlov"
+    given-names: "Fedor"
+    orcid: "https://orcid.org/0009-0007-8281-4727"
+    affiliation: "University of Toronto"
+  - family-names: "Norton"
+    given-names: "Logan"
+    orcid: "https://orcid.org/0009-0007-5617-5060"
+    affiliation: "University of Toronto"
+  - family-names: "Augspach"
+    given-names: "Zoe"
+    orcid: "https://orcid.org/0009-0003-2465-4359"
+    affiliation: "University of Toronto"
+repository-code: "https://github.com/utat-ss/FINCH-Science_Modelling"
+abstract: >-
+  This codebase includes all the source code, configuration files, and intermediary scripts that were used for the submitted ISPRS Archives publication. The codebase has the files necessary to automate the pipeline, and to get the unmixing results.
